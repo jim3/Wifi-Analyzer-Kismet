@@ -35,7 +35,7 @@ The other useful (and related) endpoing is the _"Wi-fi related devices"_ endpoin
 
 ---
 
-### Example Output
+### Snippet of JSON response below:
 ```js
 ]
 Clients for Device Key: 4202770D00000000_4DC413D3B968
