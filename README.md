@@ -11,7 +11,7 @@ This endpoint returns Wi-Fi access point devices _only_. Read more about it here
 
 The other useful (and related) endpoing is the _"Wi-fi related devices"_ endpoint: `/phy/phy80211/related-to/{DEVICEKEY}/devices.json`. This endpoint will return an array of complete device records of the associated devices, for example the clients associated to a particular access point. These two endpoints are very useful for starting out with the Kismet Wireless API.
 
-**Note**: Credit should go to [Introduction to Kismet Wireless REST API](https://www.youtube.com/watch?v=3LJo4RPT9JE) excellent YouTube videos on the Kismet REST APi for the above mentioned endpoints, I hope to build on this and add some additional functionality. If you are just getting started check out his videos, it'll save you some time.
+**Note**: Credit should go to [Introduction to Kismet Wireless REST API](https://www.youtube.com/watch?v=3LJo4RPT9JE) excellent YouTube videos for the "tip" on what the above mentioned endpoints can do. I hope to build on this and add some additional functionality. If you are just getting started check out his videos, it'll save you some time.
 
 ---
 
