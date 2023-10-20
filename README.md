@@ -37,165 +37,188 @@ The other useful (and related) endpoing is the _"Wi-fi related devices"_ endpoin
 
 ### Snippet of JSON response below:
 ```js
+  // ... etc...
+   'kismet.device.base.name': 'Ring Setup bf',
+    'kismet.device.base.packets.crypt': 0,
+    'kismet.device.base.packets.filtered': 0,
+    'kismet.device.base.packets.llc': 41
+  }
 ]
-Clients for Device Key: 4202770D00000000_4DC413D3B968
+/*Clients for Device Key: 4202770D00000000_9EFAC61E41C4*/
 [
   {
-    'kismet.device.base.first_time': 1697740385,
-    'kismet.device.base.macaddr': '68:B9:D3:13:C4:4D',
+    'kismet.device.base.first_time': 1697807089,
+    'kismet.device.base.macaddr': 'C4:41:1E:C6:FA:9E',
     'dot11.device': {
       'dot11.device.client_disconnects_last': 0,
       'dot11.device.num_probed_ssids': 0,
       'dot11.device.neighbor_report_capable': 0,
-      'dot11.device.last_bssid': '68:B9:D3:13:C4:4D',
+      'dot11.device.last_bssid': 'C4:41:1E:C6:FA:9E',
       'dot11.device.wps_m3_last': 0,
       'dot11.device.num_advertised_ssids': 1,
-      'dot11.device.last_beaconed_ssid_record': [Object],
-      'dot11.device.last_beacon_timestamp': 1697757346,
+      'dot11.device.last_beaconed_ssid_record': {
+        'dot11.advertisedssid.ssidlen': 8,
+        'dot11.advertisedssid.cloaked': 0,
+        'dot11.advertisedssid.ccx_txpower': 0,
+        'dot11.advertisedssid.cisco_client_mfp': 0,
+        'dot11.advertisedssid.dot11e_qbss': 0,
+        'dot11.advertisedssid.probe_response': 0,
+        'dot11.advertisedssid.ht_center_1': 5210,
+        'dot11.advertisedssid.maxrate': 866.7,
+        'dot11.advertisedssid.beacon': 1,
+        'dot11.advertisedssid.ietag_checksum': 3470947301,
+        'dot11.advertisedssid.ht_center_2': 0,
+        'dot11.advertisedssid.ssid_hash': 387676073,
+        'dot11.advertisedssid.ht_mode': 'HT80',
+        'dot11.advertisedssid.first_time': 1697807089,
+        'dot11.advertisedssid.beaconrate': 10,
+        'dot11.advertisedssid.dot11e_channel_utilization_perc': 0,
+        'dot11.advertisedssid.dot11d_country': 'US',
+        'dot11.advertisedssid.crypt_set': 268436162,
+        'dot11.advertisedssid.wpa_mfp_supported': 0,
+        'dot11.advertisedssid.last_time': 1697810950,
+        'dot11.advertisedssid.dot11e_qbss_stations': 0,
+        'dot11.advertisedssid.wps_version': 16,
+        'dot11.advertisedssid.dot11r_mobility_domain_id': 0,
+        'dot11.advertisedssid.ssid': 'Whiteman',
+        'dot11.advertisedssid.wps_config_methods': 0,
+        'dot11.advertisedssid.beacons_sec': 17,
+        'dot11.advertisedssid.wps_state': 1,
+        'dot11.advertisedssid.wpa_mfp_required': 0,
+        'dot11.advertisedssid.channel': '48',
+        'dot11.advertisedssid.dot11r_mobility': 0
+      },
+      'dot11.device.last_beacon_timestamp': 1697810950,
       'dot11.device.min_tx_power': 0,
       'dot11.device.num_retries': 0,
       'dot11.device.datasize_retry': 0,
       'dot11.device.probe_fingerprint': 0,
       'dot11.device.num_client_aps': 0,
-      'dot11.device.typeset': 257,
+      'dot11.device.typeset': 1,
       'dot11.device.wps_m3_count': 0,
-      'dot11.device.associated_client_map': {},
+      'dot11.device.associated_client_map': {
+        'F0:A6:54:B6:92:3D': '4202770D00000000_3D92B654A6F0',
+        '20:1F:3B:5A:E0:C7': '4202770D00000000_C7E05A3B1F20'
+      },
       'dot11.device.response_fingerprint': 0,
-      'dot11.device.bss_timestamp': 19341005261,
+      'dot11.device.bss_timestamp': 3166231961657,
       'dot11.device.num_fragments': 0,
-      'dot11.device.beacon_fingerprint': 1794870389,
-      'dot11.device.datasize': 0,
+      'dot11.device.beacon_fingerprint': 3826098729,
+      'dot11.device.datasize': 220,
       'dot11.device.num_responded_ssids': 0,
       'dot11.device.last_sequence': 0,
-      'dot11.device.num_associated_clients': 0,
-      'dot11.device.advertised_ssid_map': [Array],
+      'dot11.device.num_associated_clients': 2,
+      'dot11.device.advertised_ssid_map': [
+        {
+          'dot11.advertisedssid.ssidlen': 8,
+          'dot11.advertisedssid.cloaked': 0,
+          'dot11.advertisedssid.ccx_txpower': 0,
+          'dot11.advertisedssid.cisco_client_mfp': 0,
+          'dot11.advertisedssid.dot11e_qbss': 0,
+          'dot11.advertisedssid.probe_response': 0,
+          'dot11.advertisedssid.ht_center_1': 5210,
+          'dot11.advertisedssid.maxrate': 866.7,
+          'dot11.advertisedssid.beacon': 1,
+          'dot11.advertisedssid.ietag_checksum': 3470947301,
+          'dot11.advertisedssid.ht_center_2': 0,
+          'dot11.advertisedssid.ssid_hash': 387676073,
+          'dot11.advertisedssid.ht_mode': 'HT80',
+          'dot11.advertisedssid.first_time': 1697807089,
+          'dot11.advertisedssid.beaconrate': 10,
+          'dot11.advertisedssid.dot11e_channel_utilization_perc': 0,
+          'dot11.advertisedssid.location': {
+            'kismet.common.location.avg_loc': {
+              'kismet.common.location.time_usec': 550589,
+              'kismet.common.location.alt': 0,
+              'kismet.common.location.geopoint': [
+                -84.257191,
+                31.621472
+              ],
+              'kismet.common.location.time_sec': 1697810531,
+              'kismet.common.location.fix': 3
+            },
+            'kismet.common.location.loc_fix': 3,
+            'kismet.common.location.max_loc': {
+              'kismet.common.location.alt': 106.0429,
+              'kismet.common.location.geopoint': [
+                -84.257121,
+                31.621517
+              ]
+            },
+            'kismet.common.location.min_loc': {
+              'kismet.common.location.alt': 82.365799,
+              'kismet.common.location.geopoint': [
+                -84.257271,
+                31.621442
+              ]
+            },
+            'kismet.common.location.last': {
+              'kismet.common.location.speed': 0.1044,
+              'kismet.common.location.alt': 98.456596,
+              'kismet.common.location.geopoint': [
+                -84.257207,
+                31.621465
+              ],
+              'kismet.common.location.fix': 3,
+              'kismet.common.location.heading': 89.752197
+            }
+          },
+          'dot11.advertisedssid.dot11d_country': 'US',
+          'dot11.advertisedssid.crypt_set': 268436162,
+          'dot11.advertisedssid.wpa_mfp_supported': 0,
+          'dot11.advertisedssid.last_time': 1697810950,
+          'dot11.advertisedssid.dot11e_qbss_stations': 0,
+          'dot11.advertisedssid.wps_version': 16,
+          'dot11.advertisedssid.dot11r_mobility_domain_id': 0,
+          'dot11.advertisedssid.ssid': 'Whiteman',
+          'dot11.advertisedssid.wps_config_methods': 0,
+          'dot11.advertisedssid.beacons_sec': 17,
+          'dot11.advertisedssid.wps_state': 1,
+          'dot11.advertisedssid.wpa_mfp_required': 0,
+          'dot11.advertisedssid.channel': '48',
+          'dot11.advertisedssid.dot11r_mobility': 0
+        }
+      ],
       'dot11.device.client_disconnects': 0,
       'dot11.device.max_tx_power': 0,
       'dot11.device.link_measurement_capable': 0
     },
-    'kismet.device.base.crypt': 'Open',
-    'kismet.device.base.key': '4202770D00000000_4DC413D3B968',
+    'kismet.device.base.crypt': 'WPA2-PSK',
+    'kismet.device.base.key': '4202770D00000000_9EFAC61E41C4',
     'kismet.device.base.packets.error': 0,
-    'kismet.device.base.packets.total': 7308,
-    'kismet.device.base.manuf': 'Shenzhen Trolink Technology CO, LTD',
+    'kismet.device.base.packets.total': 17,
+    'kismet.device.base.manuf': 'Belkin International Inc.',
     'kismet.device.base.basic_type_set': 1,
-    'kismet.device.base.packets.rrd': {
-      'kismet.common.rrd.day_vec': [Array],
-      'kismet.common.rrd.blank_val': 0,
-      'kismet.common.rrd.last_time': 1697757353,
-      'kismet.common.rrd.serial_time': 1697757353,
-      'kismet.common.rrd.minute_vec': [Array],
-      'kismet.common.rrd.hour_vec': [Array]
-    },
-    'kismet.device.base.tx_packets.rrd': {
-      'kismet.common.rrd.day_vec': [Array],
-      'kismet.common.rrd.blank_val': 0,
-      'kismet.common.rrd.last_time': 1697757353,
-      'kismet.common.rrd.serial_time': 1697757353,
-      'kismet.common.rrd.minute_vec': [Array],
-      'kismet.common.rrd.hour_vec': [Array]
-    },
-    'kismet.server.uuid': '44829CC4-6708-11EE-8F94-4B49534D4554',
+    'kismet.server.uuid': '1DAA64CA-6577-11EE-AF40-4B49534D4554',
     'kismet.device.base.related_devices': {},
     'kismet.device.base.packets.rx_total': 0,
     'kismet.device.base.type': 'Wi-Fi AP',
-    'kismet.device.base.basic_crypt_set': 0,
+    'kismet.device.base.basic_crypt_set': 2,
     'kismet.device.base.freq_khz_map': {
-      '2412000': 455,
-      '2417000': 297,
-      '2422000': 539,
-      '2427000': 744,
-      '2432000': 773,
-      '2437000': 2223,
-      '2442000': 317,
-      '2447000': 54,
-      '2452000': 452,
-      '2457000': 63,
-      '2462000': 568,
-      '2467000': 530,
-      '2472000': 289,
-      '2484000': 1,
-      '5180000': 2,
-      '5200000': 1
+      '5240000': 17
     },
-    'kismet.device.base.packets.tx_total': 7308,
+    'kismet.device.base.packets.tx_total': 17,
     'kismet.device.base.phyname': 'IEEE802.11',
-    'kismet.device.base.channel': '5',
-    'kismet.device.base.mod_time': 1697757347,
+    'kismet.device.base.channel': '48',
+    'kismet.device.base.mod_time': 1697810951,
     'kismet.device.base.num_alerts': 0,
     'kismet.device.base.seenby': [
-      [Object]
+      {
+        'kismet.common.seenby.num_packets': 19,
+        'kismet.common.seenby.uuid': '5FE308BD-0000-0000-0000-00C0CAB3F5AF',
+        'kismet.common.seenby.first_time': 1697807089,
+        'kismet.common.seenby.last_time': 1697810950
+      }
     ],
     'kismet.device.base.packets.data': 0,
     'kismet.device.base.datasize': 0,
-    'kismet.device.base.last_time': 1697757346,
-    'kismet.device.base.commonname': 'WVCA98G9MW7PVHYR',
-    'kismet.device.base.signal': {
-      'kismet.common.signal.type': 'dbm',
-      'kismet.common.signal.carrierset': 3,
-      'kismet.common.signal.last_signal': -75,
-      'kismet.common.signal.encodingset': 3,
-      'kismet.common.signal.maxseenrate': 60,
-      'kismet.common.signal.max_signal': 12,
-      'kismet.common.signal.max_noise': 0,
-      'kismet.common.signal.last_noise': 0,
-      'kismet.common.signal.min_noise': 0,
-      'kismet.common.signal.signal_rrd': [Object],
-      'kismet.common.signal.min_signal': -86
-    },
-    'kismet.device.base.frequency': 2472000,
-    'kismet.device.base.name': 'WVCA98G9MW7PVHYR',
+    'kismet.device.base.last_time': 1697810950,
+    'kismet.device.base.commonname': 'Whiteman',
+    'kismet.device.base.frequency': 5240000,
+    'kismet.device.base.name': 'Whiteman',
     'kismet.device.base.packets.crypt': 0,
     'kismet.device.base.packets.filtered': 0,
-    'kismet.device.base.packets.llc': 7308
-  }
-]
-Clients for Device Key: 4202770D00000000_F86384B33F38
-[
-  {
-    'kismet.device.base.first_time': 1697740386,
-    'kismet.device.base.macaddr': '38:3F:B3:84:63:F8',
-    'dot11.device': {
-      'dot11.device.client_disconnects_last': 1697756756,
-      'dot11.device.num_probed_ssids': 0,
-      'dot11.device.neighbor_report_capable': 0,
-      'dot11.device.wpa_handshake_list': [Object],
-      'dot11.device.last_bssid': '38:3F:B3:84:63:F8',
-      'dot11.device.wps_m3_last': 0,
-      'dot11.device.num_advertised_ssids': 1,
-      'dot11.device.last_beaconed_ssid_record': [Object],
-      'dot11.device.responded_ssid_map': [Array],
-      'dot11.device.last_beacon_timestamp': 1697757346,
-      'dot11.device.ssid_beacon_packet': [Object],
-      'dot11.device.min_tx_power': 0,
-      'dot11.device.num_retries': 1988,
-      'dot11.device.datasize_retry': 980170,
-      'dot11.device.probe_fingerprint': 0,
-      'dot11.device.num_client_aps': 0,
-      'dot11.device.typeset': 259,
-      'dot11.device.wps_m3_count': 0,
-      'dot11.device.associated_client_map': [Object],
-      'dot11.device.response_fingerprint': 0,
-      'dot11.device.bss_timestamp': 45711258598,
-      'dot11.device.num_fragments': 5,
-      'dot11.device.beacon_fingerprint': 3198191836,
-      'dot11.device.datasize': 2979630,
-      'dot11.device.num_responded_ssids': 1,
-      'dot11.device.last_sequence': 0,
-      'dot11.device.num_associated_clients': 14,
-      'dot11.device.advertised_ssid_map': [Array],
-      'dot11.device.client_disconnects': 2,
-      'dot11.device.max_tx_power': 0,
-      'dot11.device.link_measurement_capable': 0
-    },
-    'kismet.device.base.crypt': 'WPA2-PSK',
-    'kismet.device.base.key': '4202770D00000000_F86384B33F38',
-    'kismet.device.base.packets.error': 0,
-    'kismet.device.base.packets.total': 5555,
-    'kismet.device.base.manuf': 'Vantiva USA LLC',
-    'kismet.device.base.basic_type_set': 9,
-    // ... truncated for brevity
-]
+// ....etc...
 ```
 
 ---
