@@ -1,6 +1,6 @@
 ### Wifi Analyzer
 
-This is just an initialization of the project...as always, this repo is more of a learning exercise than anything else, sort of my "coding diary", for lack of a better term. ut I happen to pick up a lot of "toys" recently and looking to build some cool things with them...
+This is just an initialization of the project...as always, this repo is more of a learning exercise than anything else, sort of my "coding diary", for lack of a better term. I happen to pick up a lot of "toys" recently and looking to build some cool things with them...
 
 ### Project Description
 
