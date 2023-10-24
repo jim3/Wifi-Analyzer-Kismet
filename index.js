@@ -1,5 +1,3 @@
-// ((((((((( Wifi Analyzer ))))))))) //
-
 const axios = require("axios");
 require("dotenv").config();
 const util = require("util");
@@ -12,11 +10,10 @@ const server = process.env.SERVER;
 const port = process.env.PORT;
 const url = `http://${username}:${password}@${server}:${port}`;
 const check_session = "/session/check_session";
-const all_sources = `${url}/datasource/all_sources.json`;
 
 // -------------------------------------------------------- //
 
-// Function to check session validity
+// Check session validity
 const checkSession = async () => {
     try {
         const response = await axios.get(`${url}${check_session}`);
@@ -26,7 +23,7 @@ const checkSession = async () => {
     }
 };
 
-// Function to fetch access points data and related clients
+// Fetch all access points and related clients
 const fetchAccessPoints = async () => {
     try {
         const response = await axios.get(
