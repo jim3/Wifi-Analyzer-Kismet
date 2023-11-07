@@ -1,4 +1,5 @@
 require("dotenv").config();
+const fs = require("fs");
 const axios = require("axios");
 const util = require("util");
 
@@ -9,6 +10,8 @@ const server = process.env.SERVER;
 const port = process.env.PORT;
 const url = `http://${username}:${password}@${server}:${port}`;
 const check_session = "/session/check_session";
+const interface_list = "/datasource/list_interfaces.json";
+const all_sources = `${url}/datasource/all_sources.json`;
 
 // -------------------------------------------------------- //
 
@@ -25,32 +28,24 @@ const checkSession = async () => {
 
 // -------------------------------------------------------- //
 
-// Log all access points
-const getAllAccessPoints = async () => {
-    try {
-        const response = await axios.get(
-            `${url}/devices/views/phydot11_accesspoints/devices.json`
-        );
-        let data = response.data;
-        data = Object.keys(data).map((key) => data[key]);
-        return data;
-    } catch (error) {
-        console.error("Error fetching access points:", error);
-    }
+// Get RF sensors
+const getRFSensors = async () => {
+    const response = await axios.get(`${url}/devices/views/phy-RFSENSOR/devices.json`);
+    const data = response.data;
+    console.log(util.inspect(data, { depth: 4, compact: false }));
 };
 
 // -------------------------------------------------------- //
 
-// Log APs related clients function
-const getRelatedClients = async () => {
+// Get all clients of a specific access point
+const getRelatedClients = async (data) => {
     try {
-        const accessPoints = await getAllAccessPoints();
         const ssidToClients = {}; // object to store ssid to clients
 
-        for (const accessPoint of accessPoints) {
-            if (accessPoint !== null) {
-                const deviceKey = accessPoint["kismet.device.base.key"] || "";
-                const ssid = accessPoint["kismet.device.base.name"] || "";
+        for (const d of data) {
+            if (d !== null) {
+                const deviceKey = d["kismet.device.base.key"] || "";
+                const ssid = d["kismet.device.base.name"] || "";
 
                 if (deviceKey && ssid) {
                     const response = await axios.get(
@@ -64,11 +59,12 @@ const getRelatedClients = async () => {
 
         for (const ssid in ssidToClients) {
             const relatedClients = ssidToClients[ssid];
+            // list of clients
             console.log(
-                `${ssid} clients are: ${util.inspect(relatedClients, {
+                `${ssid} ${util.inspect(relatedClients, {
                     showHidden: false,
                     depth: null,
-                })} clients.`
+                })}`
             );
             console.log("-----------------------------------");
         }
@@ -101,28 +97,21 @@ const getBluetooth = async () => {
 
 // -------------------------------------------------------- //
 
-// main
-const analyzer = async () => {
-    console.log("Starting analyzer...");
+// Log all access points
+const getAllAccessPoints = async () => {
     try {
         const response = await axios.get(
             `${url}/devices/views/phydot11_accesspoints/devices.json`
         );
         let data = response.data;
         data = Object.keys(data).map((key) => data[key]);
-        console.log(util.inspect("Access Points:", data, { depth: 8, compact: false }));
-
-        // call functions
-        checkSession();
-        getAllAccessPoints();
-        getRelatedClients();
-        getBluetooth();
+        getRelatedClients(data);
     } catch (error) {
         console.error("Error fetching access points:", error);
     }
 };
 
-// -------------------------------------------------------- //
-
-// call main function
-analyzer();
+checkSession();
+getRFSensors();
+getAllAccessPoints();
+getBluetooth();
