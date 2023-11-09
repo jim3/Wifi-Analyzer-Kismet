@@ -25,8 +25,6 @@ Please let me know if you have any issues getting things started or anything els
 
 [RTL-SDR V3](https://www.amazon.com/dp/B0BMKB3L47?th=1) - RTL-SDR V3 R860 RTL2832U Kit with 1PPM TCXO SMA F Software Defined Radio
 
-[Particle Photon 2](https://store.particle.io/collections/wifi/products/photon-2-edge-ml-kit) - Photon 2 + Edge ML Kit
-
 ---
 
 ### Snippet of JSON response below:
