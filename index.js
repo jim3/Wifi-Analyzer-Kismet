@@ -2,6 +2,7 @@ require("dotenv").config();
 const fs = require("fs");
 const axios = require("axios");
 const util = require("util");
+const { table } = require("table");
 
 // Global variables
 const username = process.env.USERNAME;
@@ -19,7 +20,7 @@ const all_sources = `${url}/datasource/all_sources.json`;
 const checkSession = async () => {
     try {
         const response = await axios.get(`${url}${check_session}`);
-        console.log(response.data); // for debugging
+        // console.log(response.data); // for debugging
         return response.data;
     } catch (error) {
         console.log(error);
@@ -32,7 +33,24 @@ const checkSession = async () => {
 const getRFSensors = async () => {
     const response = await axios.get(`${url}/devices/views/phy-RFSENSOR/devices.json`);
     const data = response.data;
-    console.log(util.inspect(data, { depth: 4, compact: false }));
+    // console.log(util.inspect(data, { depth: 4, compact: false }));
+    let arr = [];
+    try {
+        for (d of data) {
+            if (d !== null) {
+                const manufacturer = d["kismet.device.base.name"] || "";
+                const macaddr = d["kismet.device.base.macaddr"] || "";
+                const frequency = d["kismet.device.base.frequency"] || "";
+                const last_time = d["kismet.device.base.last_time"] || "";
+                arr.push([manufacturer, macaddr, frequency, last_time]);
+            }
+
+            const output = table(arr);
+            console.log(output);
+        }
+    } catch (error) {
+        console.error("Error fetching RF sensors:", error);
+    }
 };
 
 // -------------------------------------------------------- //
@@ -66,7 +84,6 @@ const getRelatedClients = async (data) => {
                     depth: null,
                 })}`
             );
-            console.log("-----------------------------------");
         }
     } catch (error) {
         console.error("Error fetching access points:", error);
@@ -81,13 +98,11 @@ const getBluetooth = async () => {
             `${url}/devices/views/phy-Bluetooth/devices.json`
         );
         const data = response.data;
-        console.log(util.inspect(data, { depth: 4, compact: false }));
+        // console.log(util.inspect(data, { depth: 4, compact: false }));
         // loop
         data.forEach((d) => {
             if (d !== null) {
                 let deviceKey = d["kismet.device.base.key"] || {};
-                let allData = d || {}; // all data
-                console.log(util.inspect(allData, { depth: 8, compact: false }));
             }
         });
     } catch (error) {
