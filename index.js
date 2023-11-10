@@ -4,7 +4,6 @@ const axios = require("axios");
 const util = require("util");
 const { table } = require("table");
 
-// Global variables
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
 const server = process.env.SERVER;
@@ -16,11 +15,9 @@ const all_sources = `${url}/datasource/all_sources.json`;
 
 // -------------------------------------------------------- //
 
-// Check session validity
 const checkSession = async () => {
     try {
         const response = await axios.get(`${url}${check_session}`);
-        // console.log(response.data); // for debugging
         return response.data;
     } catch (error) {
         console.log(error);
@@ -33,7 +30,6 @@ const checkSession = async () => {
 const getRFSensors = async () => {
     const response = await axios.get(`${url}/devices/views/phy-RFSENSOR/devices.json`);
     const data = response.data;
-    // console.log(util.inspect(data, { depth: 4, compact: false }));
     let arr = [];
     try {
         for (d of data) {
@@ -92,26 +88,6 @@ const getRelatedClients = async (data) => {
 
 // -------------------------------------------------------- //
 
-const getBluetooth = async () => {
-    try {
-        const response = await axios.get(
-            `${url}/devices/views/phy-Bluetooth/devices.json`
-        );
-        const data = response.data;
-        // console.log(util.inspect(data, { depth: 4, compact: false }));
-        // loop
-        data.forEach((d) => {
-            if (d !== null) {
-                let deviceKey = d["kismet.device.base.key"] || {};
-            }
-        });
-    } catch (error) {
-        console.error("Error fetching bluetooth devices:", error);
-    }
-};
-
-// -------------------------------------------------------- //
-
 // Log all access points
 const getAllAccessPoints = async () => {
     try {
@@ -126,7 +102,55 @@ const getAllAccessPoints = async () => {
     }
 };
 
+// -------------------------------------------------------- //
+
+const getBluetooth = async () => {
+    let arr = [];
+    try {
+        const response = await axios.get(
+            `${url}/devices/views/phy-Bluetooth/devices.json`
+        );
+        const data = response.data;
+        // loop
+        data.forEach((d) => {
+            if (d !== null) {
+                const macaddr = d["kismet.device.base.macaddr"] || {};
+                const deviceName = d["kismet.device.base.name"] || {};
+                arr.push([macaddr, deviceName]);
+            }
+            const output = table(arr);
+            console.log(output);
+        });
+    } catch (error) {
+        console.error("Error fetching bluetooth devices:", error);
+    }
+};
+
+// -------------------------------------------------------- //
+
+const listInterfaces = async () => {
+    const response = await axios.get(`${url}${interface_list}`);
+    const data = response.data;
+    let arr = [];
+    // loop
+    try {
+        for (d of data) {
+            if (d !== null) {
+                const name = d["kismet.datasource.probed.interface"] || "";
+                arr.push([name]);
+            }
+            const output = table(arr);
+            console.log(output);
+        }
+    } catch (error) {
+        console.error("Error fetching interfaces:", error);
+    }
+};
+
+// -------------------------------------------------------- //
+
+getAllAccessPoints();
 checkSession();
 getRFSensors();
-getAllAccessPoints();
 getBluetooth();
+listInterfaces();
