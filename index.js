@@ -1,8 +1,7 @@
 require("dotenv").config();
-const fs = require("fs");
 const axios = require("axios");
 const util = require("util");
-const { table } = require("table");
+const { Sender } = require("@questdb/nodejs-client");
 
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
@@ -10,10 +9,8 @@ const server = process.env.SERVER;
 const port = process.env.PORT;
 const url = `http://${username}:${password}@${server}:${port}`;
 const check_session = "/session/check_session";
-const interface_list = "/datasource/list_interfaces.json";
-const all_sources = `${url}/datasource/all_sources.json`;
-
-// -------------------------------------------------------- //
+const accesspoints = "/devices/views/phydot11_accesspoints/devices.json";
+const rfsensor = "/devices/views/phy-RFSENSOR/devices.json";
 
 const checkSession = async () => {
     try {
@@ -24,11 +21,9 @@ const checkSession = async () => {
     }
 };
 
-// -------------------------------------------------------- //
-
 // Get RF sensors
 const getRFSensors = async () => {
-    const response = await axios.get(`${url}/devices/views/phy-RFSENSOR/devices.json`);
+    const response = await axios.get(`${url}${rfsensor}`);
     const data = response.data;
     let arr = [];
     try {
@@ -40,22 +35,23 @@ const getRFSensors = async () => {
                 const last_time = d["kismet.device.base.last_time"] || "";
                 arr.push([manufacturer, macaddr, frequency, last_time]);
             }
-
-            const output = table(arr);
-            console.log(output);
         }
     } catch (error) {
         console.error("Error fetching RF sensors:", error);
     }
+    return arr;
 };
 
 // -------------------------------------------------------- //
 
 // Get all clients of a specific access point
-const getRelatedClients = async (data) => {
+const getRelatedClients = async () => {
+    const response = await axios.get(`${url}${accesspoints}`);
+    let data = response.data;
+    data = Object.keys(data).map((key) => data[key]);
+    const ssidToClients = {}; // object to store ssid to clients
+    // loop
     try {
-        const ssidToClients = {}; // object to store ssid to clients
-
         for (const d of data) {
             if (d !== null) {
                 const deviceKey = d["kismet.device.base.key"] || "";
@@ -63,94 +59,65 @@ const getRelatedClients = async (data) => {
 
                 if (deviceKey && ssid) {
                     const response = await axios.get(
-                        `${url}/phy/phy80211/related-to/${deviceKey}/devices.json`
+                        `${url}/phy/phy80211/related-to/${deviceKey}/devices.json` // get all clients of a specific access point
                     );
                     const relatedClients = response.data;
-                    ssidToClients[ssid] = relatedClients;
+                    ssidToClients[ssid] = relatedClients; // store ssid to clients
                 }
             }
         }
-
-        for (const ssid in ssidToClients) {
-            const relatedClients = ssidToClients[ssid];
-            // list of clients
-            console.log(
-                `${ssid} ${util.inspect(relatedClients, {
-                    showHidden: false,
-                    depth: null,
-                })}`
-            );
-        }
     } catch (error) {
         console.error("Error fetching access points:", error);
     }
+    return ssidToClients; // moved outside the try block
 };
 
 // -------------------------------------------------------- //
 
-// Log all access points
-const getAllAccessPoints = async () => {
-    try {
-        const response = await axios.get(
-            `${url}/devices/views/phydot11_accesspoints/devices.json`
-        );
-        let data = response.data;
-        data = Object.keys(data).map((key) => data[key]);
-        getRelatedClients(data);
-    } catch (error) {
-        console.error("Error fetching access points:", error);
-    }
-};
+async function run() {
+    const sender = new Sender();
+    await sender.connect({ port: 9009, host: "localhost" });
 
-// -------------------------------------------------------- //
-
-const getBluetooth = async () => {
-    let arr = [];
-    try {
-        const response = await axios.get(
-            `${url}/devices/views/phy-Bluetooth/devices.json`
-        );
-        const data = response.data;
-        // loop
-        data.forEach((d) => {
-            if (d !== null) {
-                const macaddr = d["kismet.device.base.macaddr"] || {};
-                const deviceName = d["kismet.device.base.name"] || {};
-                arr.push([macaddr, deviceName]);
-            }
-            const output = table(arr);
-            console.log(output);
-        });
-    } catch (error) {
-        console.error("Error fetching bluetooth devices:", error);
-    }
-};
-
-// -------------------------------------------------------- //
-
-const listInterfaces = async () => {
-    const response = await axios.get(`${url}${interface_list}`);
-    const data = response.data;
-    let arr = [];
-    // loop
-    try {
-        for (d of data) {
-            if (d !== null) {
-                const name = d["kismet.datasource.probed.interface"] || "";
-                arr.push([name]);
-            }
-            const output = table(arr);
-            console.log(output);
+    const rfSensors = await getRFSensors(); // -> [{}, {}, ...]
+    // insert the RF sensor data into QuestDB
+    for (const sensor of rfSensors) {
+        if (sensor.manufacturer) {
+            sender
+                .table("sensors") // table name
+                .stringColumn("manufacturer", sensor.manufacturer)
+                .stringColumn("macaddr", sensor.macaddr)
+                .floatColumn("frequency", sensor.frequency)
+                .timestampColumn("last_time", sensor.last_time)
+                .atNow();
         }
-    } catch (error) {
-        console.error("Error fetching interfaces:", error);
     }
-};
 
-// -------------------------------------------------------- //
+    const results = await getRelatedClients(); // -> { ssid: [clients] }
+    for (const result in results) {
+        if (results.hasOwnProperty(result)) {
+            const clients = results[result];
 
-getAllAccessPoints();
-checkSession();
-getRFSensors();
-getBluetooth();
-listInterfaces();
+            clients.forEach((client) => {
+                const macaddr = client["kismet.device.base.macaddr"] || "";
+                const deviceName = client["kismet.device.base.manuf"] || "";
+                const last_time = client["kismet.device.base.last_time"] || "";
+                let frequency = client["kismet.device.base.frequency"] || "";
+                frequency = parseInt(result.frequency) || 0;
+                sender
+                    .table("clients")
+                    .stringColumn("ssid", result)
+                    .stringColumn("macaddr", macaddr)
+                    .stringColumn("deviceName", deviceName)
+                    .timestampColumn("last_time", last_time)
+                    .floatColumn("frequency", frequency)
+                    .atNow();
+            });
+        }
+    }
+    
+    await sender.flush();
+    await sender.close();
+    return new Promise((resolve) => resolve(0));
+}
+
+run();
