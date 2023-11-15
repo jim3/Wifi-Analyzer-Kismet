@@ -23,6 +23,7 @@ const checkSession = async () => {
 
 // Get RF sensors
 const getRFSensors = async () => {
+    // calls the kismet `phy-RFSENSOR` endpoint for a list of sensor values (rtl-sdr & rtl_433)
     const response = await axios.get(`${url}${rfsensor}`);
     const data = response.data;
     let arr = [];
@@ -46,6 +47,7 @@ const getRFSensors = async () => {
 
 // Get all clients of a specific access point
 const getRelatedClients = async () => {
+    // call the `phydot11_accesspoints` to get list of all AP's
     const response = await axios.get(`${url}${accesspoints}`);
     let data = response.data;
     data = Object.keys(data).map((key) => data[key]);
@@ -54,12 +56,15 @@ const getRelatedClients = async () => {
     try {
         for (const d of data) {
             if (d !== null) {
+                // extract all AP device key's so we can make our "all client of ap's" api call
                 const deviceKey = d["kismet.device.base.key"] || "";
                 const ssid = d["kismet.device.base.name"] || "";
 
                 if (deviceKey && ssid) {
+                    // get all clients of a specific access point 
+                    // with the `/phy/phy80211/related-to/${deviceKey}/devices.json`
                     const response = await axios.get(
-                        `${url}/phy/phy80211/related-to/${deviceKey}/devices.json` // get all clients of a specific access point
+                        `${url}/phy/phy80211/related-to/${deviceKey}/devices.json` 
                     );
                     const relatedClients = response.data;
                     ssidToClients[ssid] = relatedClients; // store ssid to clients
@@ -69,11 +74,13 @@ const getRelatedClients = async () => {
     } catch (error) {
         console.error("Error fetching access points:", error);
     }
-    return ssidToClients; // moved outside the try block
+    return ssidToClients;
 };
 
 // -------------------------------------------------------- //
 
+// questdb `run` function. 
+// inserts values from the kismet api calls into the db
 async function run() {
     const sender = new Sender();
     await sender.connect({ port: 9009, host: "localhost" });
