@@ -79,8 +79,7 @@ const getRelatedClients = async () => {
 
 // -------------------------------------------------------- //
 
-// questdb `run` function. 
-// inserts values from the kismet api calls into the db
+// uses the QuestDB Node.js Client to insert our values in the db
 async function run() {
     const sender = new Sender();
     await sender.connect({ port: 9009, host: "localhost" });
